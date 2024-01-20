@@ -8,7 +8,6 @@ function App() {
         <h1 className="underline text-lg font-bold mb-6">
           React Tic Tac Toe Application
         </h1>
-
         <Game />
       </div>
     </>
