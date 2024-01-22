@@ -1,15 +1,24 @@
 import "./App.css";
-import Game from "./components/Game";
+import Navigation from "./components/Navigation";
+import Footer from "./components/Footer";
+import Hero from "./components/Hero";
+import TaskBoard from "./components/TaskBoard";
+import { Slide, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
-      <div className="max-w-4xl m-auto flex flex-col items-center justify-center h-screen">
-        <h1 className="underline text-lg font-bold mb-6">
-          React Tic Tac Toe Application
-        </h1>
-        <Game />
-      </div>
+      <Navigation />
+      <Hero />
+      <TaskBoard />
+      <Footer />
+      <ToastContainer
+        position="top-center"
+        hideProgressBar
+        theme="dark"
+        transition={Slide}
+      />
     </>
   );
 }
