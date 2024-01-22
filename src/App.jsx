@@ -1,25 +1,17 @@
 import "./App.css";
-import Navigation from "./components/Navigation";
-import Footer from "./components/Footer";
-import Hero from "./components/Hero";
-import TaskBoard from "./components/TaskBoard";
+import { CartProvider, ThemeProvider } from "./context";
+import Page from "./page";
 import { Slide, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
-    <>
-      <Navigation />
-      <Hero />
-      <TaskBoard />
-      <Footer />
-      <ToastContainer
-        position="top-center"
-        hideProgressBar
-        theme="dark"
-        transition={Slide}
-      />
-    </>
+    <ThemeProvider>
+      <CartProvider>
+        <Page />
+        <ToastContainer position="bottom-right" transition={Slide} />
+      </CartProvider>
+    </ThemeProvider>
   );
 }
 
