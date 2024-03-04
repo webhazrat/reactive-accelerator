@@ -1,16 +1,7 @@
-import WeatherProvider from "./Provider/WeatherProvider";
-import FavouriteLocationsProvider from "./Provider/FavouriteLocationsProvider";
-import SelectedLocationProvider from "./Provider/SelectedLocationProvider";
-import Dashboard from "./Dashboard";
+import "./App.css";
 
-export default function App() {
-  return (
-    <SelectedLocationProvider>
-      <WeatherProvider>
-        <FavouriteLocationsProvider>
-          <Dashboard />
-        </FavouriteLocationsProvider>
-      </WeatherProvider>
-    </SelectedLocationProvider>
-  );
+function App() {
+  return <h1>APP</h1>;
 }
+
+export default App;
