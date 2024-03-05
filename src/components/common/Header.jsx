@@ -1,36 +1,48 @@
 import { Link } from "react-router-dom";
+import Logo from "../../assets/images/logo.svg";
+import HomeIcon from "../../assets/icons/home.svg";
+import NotificationIcon from "../../assets/icons/notification.svg";
+import AvatarIcon from "../../assets/images/avatars/avatar_1.png";
+import Logout from "../auth/Logout";
+import useAuth from "../../hooks/useAuth";
 
 export default function Header() {
+  const { auth } = useAuth();
   return (
-    <nav class="sticky top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
-      <div class="container flex flex-col items-center justify-between gap-6 sm:flex-row">
+    <nav className="sticky top-0 z-50 border-b border-[#3F3F3F] bg-[#1E1F24] py-4">
+      <div className="container flex flex-col gap-5 items-center justify-between sm:flex-row">
         <Link to="/">
           <img
-            class="max-w-[100px] rounded-full lg:max-w-[130px]"
-            src="./assets/images/logo.svg"
+            className="max-w-[100px] lg:max-w-[120px]"
+            src={Logo}
+            alt="logo"
           />
         </Link>
 
-        <div class="flex items-center space-x-4">
-          <a href="./index.html" class="btn-primary">
-            <img src="./assets/icons/home.svg" alt="Home" />
+        <div className="flex items-center gap-2">
+          <Link to="/" className="icon-btn">
+            <img src={HomeIcon} alt="Home" className="w-4 h-4" />
             Home
-          </a>
-          <button class="icon-btn">
-            <img src="./assets/icons/notification.svg" alt="Notification" />
-          </button>
-          <button class="icon-btn">
-            <img src="./assets/icons/logout.svg" alt="Logout" />
-          </button>
-
-          <button class="flex-center !ml-8 gap-3">
-            <span class="text-lg font-medium lg:text-xl">Sumit</span>
+          </Link>
+          <button className="icon-btn">
             <img
-              class="max-h-[32px] max-w-[32px] lg:max-h-[44px] lg:max-w-[44px]"
-              src="./assets/images/avatars/avatar_1.png"
-              alt=""
+              src={NotificationIcon}
+              alt="Notification"
+              className="w-4 h-4"
             />
           </button>
+          <Logout />
+
+          <Link to="/me">
+            <button className="flex-center !ml-6 gap-3">
+              <span className="font-medium">{auth?.user?.firstName}</span>
+              <img
+                className="max-h-[32px] max-w-[32px]"
+                src={AvatarIcon}
+                alt="Sumit"
+              />
+            </button>
+          </Link>
         </div>
       </div>
     </nav>

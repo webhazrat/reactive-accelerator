@@ -1,15 +1,37 @@
+import { useNavigate } from "react-router-dom";
 import Field from "../common/Field";
 import { useForm } from "react-hook-form";
+import useAuth from "../../hooks/useAuth";
+import { api } from "../../api";
 
 export default function LoginForm() {
+  const { setAuth } = useAuth();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm();
 
-  const formSubmit = (data) => {
-    console.log(data);
+  const formSubmit = async (data) => {
+    try {
+      const response = await api.post("/auth/login", data);
+      if (response.status === 200) {
+        const { user, token } = response.data;
+        if (token) {
+          const authToken = token.token;
+          const refreshToken = token.refreshToken;
+          setAuth({ user, authToken, refreshToken });
+          navigate("/");
+        }
+      }
+    } catch (error) {
+      setError("root.random", {
+        type: "random",
+        message: "User and password doesn't match",
+      });
+    }
   };
 
   return (
@@ -41,7 +63,9 @@ export default function LoginForm() {
           id="password"
         />
       </Field>
-
+      {errors?.root?.random && (
+        <p className="text-red-400 mb-4">{errors.root.random.message}</p>
+      )}
       <button
         className="auth-input bg-lwsGreen font-bold text-deepDark transition-all hover:opacity-90"
         type="submit"

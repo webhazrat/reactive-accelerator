@@ -21,7 +21,7 @@ export default function Field({ label, children, error }) {
 
 function getChildId(children) {
   const child = React.Children.only(children);
-  if ("id" in child?.props) {
+  if ("id" in child.props) {
     return child.props.id;
   }
 }

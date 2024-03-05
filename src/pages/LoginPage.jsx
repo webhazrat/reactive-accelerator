@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 export default function LoginPage() {
   return (
     <main className="flex min-h-screen items-center justify-center bg-deepDark py-8">
-      <div className="max-w-[1368px] flex-1">
-        <div className="container grid items-center gap-8 lg:grid-cols-2">
+      <div className="max-w-6xl flex-1">
+        <div className="container grid items-center gap-10 lg:grid-cols-2">
           <div>
             <img
               className="mb-12 max-w-full max-lg:hidden"
@@ -25,7 +25,7 @@ export default function LoginPage() {
           <div className="card">
             <LoginForm />
             <div className="py-4 lg:py-6">
-              <p className="text-center text-xs text-gray-600/95 lg:text-sm">
+              <p className="text-center text-gray-600/95">
                 Don’t have account?
                 <Link
                   className="text-white transition-all hover:text-lwsGreen hover:underline ml-1"
