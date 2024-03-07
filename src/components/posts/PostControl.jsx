@@ -1,29 +1,38 @@
 import AddPhoto from "../../assets/icons/addPhoto.svg";
 import CloseIcon from "../../assets/icons/close.svg";
 import { useForm } from "react-hook-form";
-import useProfile from "../../hooks/useProfile";
 import { getImagePath } from "../../utils";
 import useAxiosIntercept from "../../hooks/useAxiosIntercept";
-import useAuth from "../../hooks/useAuth";
 import { useState } from "react";
+import useUser from "../../hooks/useUser";
+import usePost from "../../hooks/usePost";
+import { actions } from "../../actions";
 
 export default function PostControl({ onShow }) {
-  const { auth } = useAuth();
-  const { state } = useProfile();
+  const { user } = useUser();
+  const { dispatch } = usePost();
   const { apiAuth } = useAxiosIntercept();
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm();
   const [selectedImage, setSelectedImage] = useState(null);
-
-  const user = state?.user ?? auth?.user;
 
   const submitForm = async (formData) => {
     try {
       const response = await apiAuth.post("/posts", formData);
-      //   if(response.status === 200){
-
-      //   }
+      if (response.status === 200) {
+        dispatch({ type: actions.post.POST_CREATED, data: response.data });
+        onShow();
+      }
     } catch (error) {
-      console.log(error);
+      setError("root.random", {
+        type: "random",
+        message: "Error occur when create a post",
+      });
+      dispatch({ type: actions.post.POST_FETCH_ERROR, error: error.message });
     }
   };
 
@@ -63,7 +72,7 @@ export default function PostControl({ onShow }) {
 
           <label
             className="btn-primary cursor-pointer !text-gray-100"
-            htmlFor="photo"
+            htmlFor="image"
           >
             <img src={AddPhoto} alt="Add Photo" className="w-5" />
             Add Photo
@@ -71,8 +80,8 @@ export default function PostControl({ onShow }) {
           <input
             {...register("image")}
             type="file"
-            name="photo"
-            id="photo"
+            name="image"
+            id="image"
             className="hidden"
             onChange={(e) => handleChange(e)}
           />
@@ -80,8 +89,8 @@ export default function PostControl({ onShow }) {
 
         <textarea
           {...register("content")}
-          name="post"
-          id="post"
+          name="content"
+          id="content"
           placeholder="Share your thoughts..."
           className="h-[120px] w-full bg-transparent focus:outline-none lg:h-[160px]"
         />
@@ -97,6 +106,9 @@ export default function PostControl({ onShow }) {
           </div>
         )}
         <div className="border-t border-[#3F3F3F] pt-4 lg:pt-6">
+          {errors?.root?.random && (
+            <p className="text-red-400 mb-4">{errors.root.random.message}</p>
+          )}
           <button
             className="auth-input bg-lwsGreen font-bold text-deepDark transition-all hover:opacity-90"
             type="submit"

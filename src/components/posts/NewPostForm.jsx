@@ -1,10 +1,12 @@
 import { useState } from "react";
-import useAvatar from "../../hooks/useAvatar";
 import PostControl from "./PostControl";
+import useUser from "../../hooks/useUser";
+import Photo from "../../assets/icons/addPhoto.svg";
+import { getImagePath } from "../../utils";
 
 export default function NewPostForm() {
   const [showPostControl, setShowPostControl] = useState(false);
-  const { avatarURL } = useAvatar();
+  const { user } = useUser();
 
   const handleShow = () => {
     setShowPostControl((prev) => !prev);
@@ -18,8 +20,8 @@ export default function NewPostForm() {
           <div className="flex-center mb-3 gap-2 lg:gap-4">
             <img
               className="max-w-10 max-h-10 rounded-full lg:max-h-[58px] lg:max-w-[58px]"
-              src={avatarURL}
-              alt="avatar"
+              src={user?.avatar ? getImagePath(user?.avatar) : Photo}
+              alt={`${user?.firstName} ${user?.lastName}`}
             />
 
             <div className="flex-1">

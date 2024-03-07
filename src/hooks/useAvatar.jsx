@@ -1,15 +1,8 @@
-import useAuth from "./useAuth";
-import useProfile from "./useProfile";
+import useUser from "./useUser";
 
-export default function useAvatar(post) {
-  const { auth } = useAuth();
-  const { state } = useProfile();
-  const isMe = post?.author?.id === state?.user?.id;
-  const avatar = post?.id
-    ? isMe
-      ? state?.user?.avatar
-      : post?.author?.avatar
-    : state?.user?.avatar ?? auth?.user?.avatar;
-  const avatarURL = `${import.meta.env.VITE_SERVER_URL}/${avatar}`;
-  return { avatarURL };
+export default function usePostAvatar(post) {
+  const { user } = useUser();
+  const avatar =
+    user?.id === post?.author?.id ? user?.avatar : post?.author?.avatar;
+  return { avatar };
 }

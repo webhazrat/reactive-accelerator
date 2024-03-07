@@ -28,6 +28,7 @@ export const postReducer = (state, action) => {
     case actions.post.POST_CREATED:
       return {
         ...state,
+        loading: false,
         posts: [action.data, ...state.posts],
       };
     case actions.post.POST_EDITED: {
@@ -46,7 +47,14 @@ export const postReducer = (state, action) => {
         posts: updatedPosts,
       };
     }
-
+    case actions.post.POST_DELETED: {
+      const filtered = state.posts.filter((post) => post.id !== action.id);
+      return {
+        ...state,
+        loading: false,
+        posts: filtered,
+      };
+    }
     default:
       return state;
   }

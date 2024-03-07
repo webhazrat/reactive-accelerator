@@ -5,10 +5,12 @@ import { useRef } from "react";
 import { actions } from "../../actions";
 import Photo from "../../assets/icons/addPhoto.svg";
 import { getImagePath } from "../../utils";
+import useUser from "../../hooks/useUser";
 
 export default function ProfileImage() {
   const fileRef = useRef();
-  const { state, dispatch } = useProfile();
+  const { dispatch } = useProfile();
+  const { user } = useUser();
   const { apiAuth } = useAxiosIntercept();
 
   const handleFileRef = (e) => {
@@ -24,7 +26,7 @@ export default function ProfileImage() {
     }
     try {
       const response = await apiAuth.post(
-        `/profile/${state?.user?.id}/avatar`,
+        `/profile/${user?.id}/avatar`,
         formData
       );
       if (response.status === 200) {
@@ -39,8 +41,8 @@ export default function ProfileImage() {
     <div className="relative mb-8 max-h-[180px] max-w-[180px] rounded-full lg:mb-11 lg:max-h-[218px] lg:max-w-[218px]">
       <img
         className="w-40 h-40 rounded-full object-cover border border-gray-600"
-        src={state?.user?.avatar ? getImagePath(state?.user?.avatar) : Photo}
-        alt={state?.user?.firstName}
+        src={user?.avatar ? getImagePath(user?.avatar) : Photo}
+        alt={`${user?.firstName} ${user?.lastName}`}
       />
 
       <form>
